@@ -13,8 +13,8 @@ public class OpenAPIConfig {
     public OpenAPI filmsProject() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Кинотеатр")
-                        .description("Онлайн продажа билетов")
+                        .title("Фильмотека")
+                        .description("Онлайн продажа фильмов")
                         .version("v0.1")
                         .license(new License()
                                 .name("Apache 2.0")

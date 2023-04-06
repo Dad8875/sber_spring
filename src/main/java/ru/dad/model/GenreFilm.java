@@ -7,9 +7,11 @@ public enum GenreFilm {
     COMEDY("Комедия"),
     DETECTIVE("Детектив");
     private final String textDisplay;
+
     GenreFilm(String genreName) {
         this.textDisplay = genreName;
     }
+
     public String getTextDisplay() {
         return textDisplay;
     }

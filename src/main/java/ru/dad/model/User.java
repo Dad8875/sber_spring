@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -33,9 +33,10 @@ public class User extends GenericModel {
     private String address;
     @Column(name = "email")
     private String email;
-    @Column(name = "created_when", nullable = false)
-    private LocalDateTime createdWhen;
+
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false, foreignKey = @ForeignKey(name = "FK_USER_ROLE"))
     private Role role;
+    @OneToMany(mappedBy = "user")
+    private Set<Order> userOrders;
 }
