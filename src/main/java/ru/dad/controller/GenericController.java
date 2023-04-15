@@ -42,7 +42,7 @@ public abstract class GenericController<T extends GenericModel, N extends Generi
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<N> create(@RequestBody N n) {
         n.setCreateWhen(LocalDateTime.now());
-        return ResponseEntity.status(HttpStatus.CREATED).body(genericService.createNewDTO(n));
+        return ResponseEntity.status(HttpStatus.CREATED).body(genericService.create(n));
     }
 
     @Operation(description = "Обновление записи", method = "update")

@@ -29,7 +29,7 @@ public abstract class GenericService<T extends GenericModel, N extends GenericDT
                 .orElseThrow(() -> new NotFoundException("Нет записи по переданному ID " + id)));
     }
 
-    public N createNewDTO(N n) {
+    public N create(N n) {
         return genericMapper.toDTO(genericRepository.save(genericMapper.toEntity(n)));
     }
 
@@ -41,4 +41,3 @@ public abstract class GenericService<T extends GenericModel, N extends GenericDT
         genericRepository.deleteById(id);
     }
 }
-//

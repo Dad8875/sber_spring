@@ -16,6 +16,7 @@ public class OrderService extends GenericService<Order, OrderDTO> {
         super(orderRepository, orderMapper);
         this.orderRepository = orderRepository;
     }
+
     //новый заказ
     public OrderDTO addOrder(Long userId, Long filmId) {
         OrderDTO orderDTO = new OrderDTO(LocalDate.now(), 10, true, userId, filmId);

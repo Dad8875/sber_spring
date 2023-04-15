@@ -5,4 +5,5 @@ import ru.dad.model.Order;
 
 @Repository
 public interface OrderRepository extends GenericRepository<Order> {
+
 }

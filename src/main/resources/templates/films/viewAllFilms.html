@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Все фильмы</title>
+    <style>
+        .film-link {
+            text-decoration: none;
+        }
+        .film-link:hover {
+            color: #001445;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+<h1>Список фильмов</h1>
+<div class="row">
+    <div class="col">
+        <a href="films/add" class="btn btn-secondary"
+           role="button" style="float: right" aria-disabled="true">Добавить фильм</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Название фильма</th>
+        <th scope="col">Режиссеры</th>
+        <th scope="col">Жанр</th>
+        <th scope="col">Страна</th>
+        <th scope="col">Год выхода</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="film : ${allFilms}">
+        <td>
+            <a class="film-link" th:href="'/films/' +
+            ${film.getId()}" th:text="${film.getTitle()}">Название фильма</a>
+        </td>
+        <td>
+            <ul>
+                <li th:each="director : ${film.getDirectors()}" th:text="${director.getFio()}"></li>
+            </ul>
+        </td>
+        <td th:text="${film.getGenre().getTextDisplay()}">Жанр</td>
+        <td th:text="${film.getCountry()}">Страна</td>
+        <td th:text="${film.getPremierYear()}">Год выхода</td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

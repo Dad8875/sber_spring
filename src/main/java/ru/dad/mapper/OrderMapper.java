@@ -16,6 +16,7 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
 
     private final UserRepository userRepository;
     private final FilmRepository filmRepository;
+
     protected OrderMapper(ModelMapper modelMapper,
                           UserRepository userRepository,
                           FilmRepository filmRepository) {
@@ -25,7 +26,8 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
     }
 
     @PostConstruct
-    public void setupMapper() {
+    @Override
+    protected void setupMapper() {
         modelMapper.createTypeMap(Order.class, OrderDTO.class)
                 .addMappings(m -> m.skip(OrderDTO::setFilmId)).setPostConverter(toDTOConverter())
                 .addMappings(m -> m.skip(OrderDTO::setUserId)).setPostConverter(toDTOConverter());
@@ -36,7 +38,7 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
     }
 
     @Override
-    void mapSpecificFields(OrderDTO source, Order destination) {
+    protected void mapSpecificFields(OrderDTO source, Order destination) {
         destination.setFilm(filmRepository.findById(source.getFilmId())
                 .orElseThrow(() -> new NotFoundException("Нет записи по переданному ID " + source.getFilmId())));
         destination.setUser(userRepository.findById(source.getUserId())
@@ -44,13 +46,13 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
     }
 
     @Override
-    void mapSpecificFields(Order source, OrderDTO destination) {
+    protected void mapSpecificFields(Order source, OrderDTO destination) {
         destination.setFilmId(source.getFilm().getId());
         destination.setUserId(source.getUser().getId());
     }
 
     @Override
-    Set<Long> getIds(Order order) {
+    protected Set<Long> getIds(Order order) {
         throw new UnsupportedOperationException("Метод недоступен");
     }
 }

@@ -6,4 +6,5 @@ import ru.dad.model.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
+
 }

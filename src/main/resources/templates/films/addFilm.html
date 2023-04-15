@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление фильма</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 mb-3">Добавить фильм</h3>
+    <form style="max-width: 33vw" method="POST" th:action="@{/films/add}" th:object="${filmForm}">
+        <div class="mb-3">
+            <label for="filmTitle" class="form-label">Добавить фильм</label>
+            <input name="title" type="text" class="form-control" id="filmTitle">
+        </div>
+        <div class="mb-3">
+            <label for="premierFilmYear" class="form-label">Год выпуска</label>
+            <input name="premierYear" type="text" class="form-control" id="premierFilmYear">
+        </div>
+        <div class="mb-3">
+            <label for="countryFilm" class="form-label">Страна</label>
+            <input name="country" type="text" class="form-control" id="countryFilm">
+        </div>
+        <div class="mb-3">
+            <label for="genreFilm" class="form-label">Жанр</label>
+            <select class="form-select" name="genre" id="genreFilm">
+                <option selected>Выберите жанр из списка:</option>
+                <option th:each="genre:${T(ru.dad.model.GenreFilm).values()}"
+                        th:value="${genre}" th:text="${genre.getTextDisplay()}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+    </form>
+</div>
+</body>
+</html>

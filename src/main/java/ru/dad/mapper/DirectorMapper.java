@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.dad.dto.DirectorDTO;
 import ru.dad.model.Director;
-import ru.dad.model.Film;
+import ru.dad.model.GenericModel;
 import ru.dad.repository.FilmRepository;
 
 import java.util.Collections;
@@ -25,7 +25,8 @@ public class DirectorMapper extends GenericMapper<Director, DirectorDTO> {
     }
 
     @PostConstruct
-    public void setupMapper() {
+    @Override
+    protected void setupMapper() {
         modelMapper.createTypeMap(Director.class, DirectorDTO.class)
                 .addMappings(m -> m.skip(DirectorDTO::setFilmIds)).setPostConverter(toDTOConverter());
 
@@ -34,7 +35,7 @@ public class DirectorMapper extends GenericMapper<Director, DirectorDTO> {
     }
 
     @Override
-    void mapSpecificFields(DirectorDTO source, Director destination) {
+    protected void mapSpecificFields(DirectorDTO source, Director destination) {
         if (!Objects.isNull(source.getFilmIds())) {
             destination.setFilms(new HashSet<>(filmRepository.findAllById(source.getFilmIds())));
         } else {
@@ -43,14 +44,14 @@ public class DirectorMapper extends GenericMapper<Director, DirectorDTO> {
     }
 
     @Override
-    void mapSpecificFields(Director source, DirectorDTO destination) {
+    protected void mapSpecificFields(Director source, DirectorDTO destination) {
         destination.setFilmIds(getIds(source));
     }
 
     @Override
-    Set<Long> getIds(Director director) {
+    protected Set<Long> getIds(Director director) {
         return Objects.isNull(director) || Objects.isNull(director.getFilms())
                 ? null : director.getFilms().stream()
-                .map(Film::getId).collect(Collectors.toSet());
+                .map(GenericModel::getId).collect(Collectors.toSet());
     }
 }

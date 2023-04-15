@@ -1,5 +1,6 @@
 package ru.dad.mapper;
 
+import jakarta.annotation.PostConstruct;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -62,9 +63,12 @@ public abstract class GenericMapper<E extends GenericModel, D extends GenericDTO
         };
     }
 
-    abstract void mapSpecificFields(D source, E destination);
+    @PostConstruct
+    protected abstract void setupMapper();
 
-    abstract void mapSpecificFields(E source, D destination);
+    protected abstract void mapSpecificFields(D source, E destination);
 
-    abstract Set<Long> getIds(E e);
+    protected abstract void mapSpecificFields(E source, D destination);
+
+    protected abstract Set<Long> getIds(E e);
 }

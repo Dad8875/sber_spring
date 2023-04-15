@@ -3,7 +3,9 @@ package ru.dad.service;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import ru.dad.dto.FilmDTO;
+import ru.dad.dto.FilmWithDirectorsDTO;
 import ru.dad.mapper.FilmMapper;
+import ru.dad.mapper.FilmWithDirectorsMapper;
 import ru.dad.model.Film;
 import ru.dad.model.Order;
 import ru.dad.repository.FilmRepository;
@@ -17,13 +19,16 @@ import java.util.Objects;
 public class FilmService extends GenericService<Film, FilmDTO> {
     protected final FilmRepository filmRepository;
     protected final OrderRepository orderRepository;
+    protected final FilmWithDirectorsMapper filmWithDirectorsMapper;
 
     protected FilmService(FilmRepository filmRepository,
                           FilmMapper filmMapper,
-                          OrderRepository orderRepository) {
+                          OrderRepository orderRepository,
+                          FilmWithDirectorsMapper filmWithDirectorsMapper) {
         super(filmRepository, filmMapper);
         this.filmRepository = filmRepository;
         this.orderRepository = orderRepository;
+        this.filmWithDirectorsMapper = filmWithDirectorsMapper;
     }
 
     //добавить режиссера фильму
@@ -44,5 +49,9 @@ public class FilmService extends GenericService<Film, FilmDTO> {
             }
         }
         return filmDTOS;
+    }
+
+    public List<FilmWithDirectorsDTO> getAllDirectorsWithFilm() {
+        return filmWithDirectorsMapper.toDTOs(filmRepository.findAll());
     }
 }
